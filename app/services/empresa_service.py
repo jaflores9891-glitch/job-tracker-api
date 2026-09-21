@@ -13,13 +13,13 @@ logger = logging.getLogger(__name__)
 class EmpresaService:
 
     def __init__(self, db: Session) -> None:
-        
         self.repo = RepositorioEmpresa(db)
 
     def crear_empresa(self, nombre: str, industria: str | None = None,
                        sitio_web: str | None = None) -> Empresa: 
         
         existente = self.repo.obtener_por_nombre(nombre)
+        
         if existente is not None:
             logger.warning("Intento de crear empresa duplicada: %s", nombre)
             raise EmpresaDuplicadaError(nombre)
@@ -38,5 +38,17 @@ class EmpresaService:
         return empresa
 
     def listar_empresas(self) -> list[Empresa]:
-        
         return self.repo.obtener_todos()
+
+    def actualizar_empresa(self, empresa_id: int, datos: dict) -> Empresa:
+    
+        empresa = self.obtener_empresa(empresa_id)  # ya valida existencia
+        for campo, valor in datos.items():
+            setattr(empresa, campo, valor)
+        return self.repo.actualizar(empresa)
+
+
+    def eliminar_empresa(self, empresa_id: int) -> None:
+    
+        self.obtener_empresa(empresa_id)  # valida que exista antes de intentar borrar
+        self.repo.eliminar(empresa_id)

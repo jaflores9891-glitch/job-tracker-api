@@ -31,4 +31,4 @@ class EmpresaResponse(EmpresaBase):
 
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
+    id: int 

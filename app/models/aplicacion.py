@@ -22,7 +22,7 @@ class Aplicacion(Base):
     __tablename__ = "aplicaciones"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    vacante_id: Mapped[int] = mapped_column(ForeignKey("vacantes.id"), nullable=False)
+    vacante_id: Mapped[int] = mapped_column(ForeignKey("vacantes.id", ondelete="CASCADE"), nullable=False)
     fecha_aplicacion: Mapped[date] = mapped_column(Date, nullable=False)
     estatus: Mapped[EstatusAplicacion] = mapped_column(
         Enum(EstatusAplicacion, name="estatus_aplicacion"),

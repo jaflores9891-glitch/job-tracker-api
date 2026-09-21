@@ -53,3 +53,17 @@ class VacanteService:
        
         self.empresa_service.obtener_empresa(empresa_id)
         return self.repo.obtener_por_empresa(empresa_id)
+
+   
+    def actualizar_vacante(self, vacante_id: int, datos: dict) -> Vacante:
+    
+        vacante = self.obtener_vacante(vacante_id)  # ya valida existencia
+        for campo, valor in datos.items():
+            setattr(vacante, campo, valor)
+        return self.repo.actualizar(vacante)
+
+
+    def eliminar_vacante(self, vacante_id: int) -> None:
+    
+        self.obtener_vacante(vacante_id)  # valida que exista antes de intentar borrar
+        self.repo.eliminar(vacante_id)
