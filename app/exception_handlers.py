@@ -11,16 +11,13 @@ from app.services.exceptions import (
     TransicionInvalidaError,
 )
 
-
 async def manejar_no_encontrado(request: Request, exc: DominioError) -> JSONResponse:
     """Traduce errores de 'no encontrado' a HTTP 404."""
     return JSONResponse(status_code=404, content={"detalle": str(exc)})
 
-
 async def manejar_conflicto(request: Request, exc: DominioError) -> JSONResponse:
     """Traduce errores de duplicados/transiciones inválidas a HTTP 409."""
     return JSONResponse(status_code=409, content={"detalle": str(exc)})
-
 
 def registrar_manejadores(app) -> None:
     """Registra todos los manejadores de excepciones en la app de FastAPI."""

@@ -74,3 +74,11 @@ class AplicacionService:
     def listar_por_estatus(self, estatus: EstatusAplicacion) -> list[Aplicacion]:
 
         return self.repo.obtener_por_estatus(estatus)
+
+    def eliminar_aplicacion(self, aplicacion_id: int) -> None:
+        self.obtener_aplicacion(aplicacion_id)
+        self.repo.eliminar(aplicacion_id)
+
+    def listar_aplicaciones_de_vacante(self, vacante_id: int) -> list[Aplicacion]:
+        self.vacante_service.obtener_vacante(vacante_id)
+        return self.repo.obtener_por_vacante(vacante_id)

@@ -12,3 +12,7 @@ class RepositorioAplicacion(RepositorioBase[Aplicacion]):
 
     def obtener_por_estatus(self, estatus: EstatusAplicacion) -> list[Aplicacion]:
         return self.db.query(Aplicacion).filter(Aplicacion.estatus == estatus).all()
+
+    def obtener_por_vacante(self, vacante_id: int) -> list[Aplicacion]:
+        return self.db.query(Aplicacion).filter(Aplicacion.vacante_id == vacante_id).all()
+
