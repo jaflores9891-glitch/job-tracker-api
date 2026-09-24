@@ -16,7 +16,7 @@ app = FastAPI(
     version="0.1.0",
 )
 
-registrar_manejadores(app)      # <- esta línea faltaba
+registrar_manejadores(app)
 
 app.include_router(empresa_router)
 app.include_router(vacante_router)
