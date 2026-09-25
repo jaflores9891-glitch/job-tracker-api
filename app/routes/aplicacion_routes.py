@@ -16,40 +16,50 @@ def crear_aplicacion(
     datos: AplicacionCreate,
     db: Session = Depends(get_db),
 ) -> AplicacionResponse:
+    """Registra una nueva aplicación a una vacante."""
     service = AplicacionService(db)
     return service.crear_aplicacion(**datos.model_dump())
+
 
 @router.get("/vacante/{vacante_id}", response_model=list[AplicacionResponse])
 def listar_aplicaciones_de_vacante(
     vacante_id: int,
     db: Session = Depends(get_db),
 ) -> list[AplicacionResponse]:
+    """Lista las aplicaciones enviadas a una vacante."""
     service = AplicacionService(db)
     return service.listar_aplicaciones_de_vacante(vacante_id)
+
 
 @router.get("/", response_model=list[AplicacionResponse])
 def listar_por_estatus(
     estatus: EstatusAplicacion,
     db: Session = Depends(get_db),
 ) -> list[AplicacionResponse]:
+    """Lista las aplicaciones filtradas por estatus."""
     service = AplicacionService(db)
     return service.listar_por_estatus(estatus)
+
 
 @router.get("/{aplicacion_id}", response_model=AplicacionResponse)
 def obtener_aplicacion(
     aplicacion_id: int,
     db: Session = Depends(get_db),
 ) -> AplicacionResponse:
+    """Obtiene una aplicación por su ID."""
     service = AplicacionService(db)
     return service.obtener_aplicacion(aplicacion_id)
+
 
 @router.delete("/{aplicacion_id}", status_code=204)
 def eliminar_aplicacion(
     aplicacion_id: int,
     db: Session = Depends(get_db),
 ) -> None:
+    """Elimina una aplicación existente."""
     service = AplicacionService(db)
     service.eliminar_aplicacion(aplicacion_id)
+
 
 @router.patch("/{aplicacion_id}/estatus", response_model=AplicacionResponse)
 def cambiar_estatus(
@@ -57,8 +67,9 @@ def cambiar_estatus(
     datos: CambioEstatusRequest,
     db: Session = Depends(get_db),
 ) -> AplicacionResponse:
+    """Cambia el estatus de una aplicación existente."""
     service = AplicacionService(db)
     return service.cambiar_estatus(
-    aplicacion_id,
-    datos.nuevo_estatus,
+        aplicacion_id,
+        datos.nuevo_estatus,
     )

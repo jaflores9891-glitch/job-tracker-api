@@ -3,8 +3,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.schemas.empresa import EmpresaCreate, EmpresaResponse, EmpresaUpdate
 from app.services.empresa_service import EmpresaService
-from app.schemas.empresa import EmpresaCreate, EmpresaUpdate, EmpresaResponse
 
 router = APIRouter(prefix="/empresas", tags=["Empresas"])
 

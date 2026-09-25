@@ -3,13 +3,14 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 
 from app.services.exceptions import (
-    DominioError,
-    EmpresaNoEncontradaError,
-    VacanteNoEncontradaError,
     AplicacionNoEncontradaError,
+    DominioError,
     EmpresaDuplicadaError,
+    EmpresaNoEncontradaError,
     TransicionInvalidaError,
+    VacanteNoEncontradaError,
 )
+
 
 async def manejar_no_encontrado(request: Request, exc: DominioError) -> JSONResponse:
     """Traduce errores de 'no encontrado' a HTTP 404."""

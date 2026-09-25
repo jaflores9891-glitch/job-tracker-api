@@ -1,6 +1,8 @@
 
 from datetime import date
+
 import pytest
+
 from app.services.empresa_service import EmpresaService
 from app.services.exceptions import EmpresaNoEncontradaError, VacanteNoEncontradaError
 from app.services.vacante_service import VacanteService

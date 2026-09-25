@@ -1,12 +1,11 @@
 """Punto de entrada de la aplicación FastAPI."""
 from fastapi import FastAPI
 
+from app.exception_handlers import registrar_manejadores
 from app.logging_config import configurar_logging
+from app.routes.aplicacion_routes import router as aplicacion_router
 from app.routes.empresa_routes import router as empresa_router
 from app.routes.vacante_routes import router as vacante_router
-from app.routes.aplicacion_routes import router as aplicacion_router
-
-from app.exception_handlers import registrar_manejadores
 
 configurar_logging()
 

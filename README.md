@@ -2,13 +2,13 @@
 
 API REST para llevar seguimiento del proceso de búsqueda de empleo: empresas, vacantes publicadas por esas empresas, y aplicaciones enviadas a esas vacantes, con control de estatus (aplicado → entrevista → oferta / rechazado).
 
-Construida con **FastAPI**, **SQLAlchemy 2.0** y **PostgreSQL**, con una arquitectura por capas (modelos → repositorios → servicios → rutas) y una suite de más de 60 tests automatizados.
+Construida con **FastAPI**, **SQLAlchemy 2.0** y **PostgreSQL**, con una arquitectura por capas (modelos → repositorios → servicios → esquemas → rutas) y una suite de 57 tests automatizados.
 
 ## Demo en vivo
 
-**API desplegada:** [https://job-tracker-api-qugs.onrender.com](https://job-tracker-api-qugs.onrender.com)
+**API desplegada:** [Demo en vivo](https://job-tracker-api-qugs.onrender.com)
 
-**Documentación interactiva (Swagger UI):** [https://job-tracker-api-qugs.onrender.com/docs](https://job-tracker-api-qugs.onrender.com/docs)
+**Documentación interactiva (Swagger UI):** [Probar la API](https://job-tracker-api-qugs.onrender.com/docs)
 
 > Nota: está desplegada en el plan gratuito de Render, así que si nadie la ha usado en los últimos 15 minutos, la primera petición puede tardar hasta un minuto en responder mientras el servicio "despierta". Es normal.
 
@@ -20,17 +20,17 @@ Construida con **FastAPI**, **SQLAlchemy 2.0** y **PostgreSQL**, con una arquite
 - **Alembic** — migraciones de base de datos versionadas
 - **PostgreSQL** — base de datos relacional
 - **pytest** — testing
+- **Ruff** — linter para mantener estilo de código, imports ordenados y docstrings consistentes
 - **Docker Compose** — entorno de base de datos local
 - **Render + Neon** — hosting de la API y de la base de datos en producción
 
 ## Estructura del proyecto
 
-```
 job-tracker-api/
 ├── app/
-│   ├── models/              # Modelos de SQLAlchemy (Empresa, Vacante, Aplicacion)
-│   ├── repositories/        # Acceso a datos (una clase por entidad + base genérica)
-│   ├── services/            # Lógica de negocio y reglas de validación
+│   ├── models/               # Modelos de SQLAlchemy (Empresa, Vacante, Aplicacion)
+│   ├── repositories/         # Acceso a datos (una clase por entidad + base genérica)
+│   ├── services/             # Lógica de negocio y reglas de validación
 │   ├── routes/               # Endpoints HTTP (FastAPI routers)
 │   ├── schemas/              # Schemas de Pydantic (request/response)
 │   ├── database.py           # Configuración de conexión y sesión de SQLAlchemy
@@ -40,15 +40,12 @@ job-tracker-api/
 ├── tests/                    # Suite de tests (servicios, rutas, end-to-end)
 ├── main.py                   # Punto de entrada de la aplicación
 ├── docker-compose.yml        # Postgres local para desarrollo
-├── requirements.txt
-└── .env.example
-```
+├── requirements.txt          # Dependencias del proyecto
+└── .env.example              # Plantilla de variables de entorno
 
 ## Modelo de datos y reglas de negocio
 
-```
 Empresa 1───N Vacante 1───N Aplicacion
-```
 
 - Una **Empresa** tiene muchas **Vacantes**. El nombre de la empresa debe ser único.
 - Una **Vacante** pertenece a una Empresa y tiene muchas **Aplicaciones**.
@@ -122,8 +119,7 @@ Empresa 1───N Vacante 1───N Aplicacion
 | Variable | Descripción |
 |---|---|
 | `DATABASE_URL` | Cadena de conexión a la base de datos principal |
-| `TEST_DATABASE_URL` | Cadena de conexión a la base de datos usada por la suite de tests (debe ser distinta de la principal) |
-| `ENVIRONMENT` | Indica si el entorno es de desarrollo o producción (`development` \| `production`) |
+| `TEST_DATABASE_URL` | Cadena de conexión a la base de datos usada para tests (distinta de la principal) |
 
 ## Endpoints principales
 
@@ -167,6 +163,18 @@ Correr con reporte de cobertura:
 ```bash
 pytest --cov=app
 ```
+
+## Calidad de código
+
+El proyecto usa [Ruff](https://docs.astral.sh/ruff/) para linting, con las siguientes reglas activas: `E` (pycodestyle), `F` (pyflakes), `I` (orden de imports) y `D` (docstrings, convención Google). Los tests y las migraciones autogeneradas de Alembic están exentos de la regla de docstrings.
+
+Correr el linter:
+
+```bash
+ruff check .
+```
+
+Todo el código de `app/` (modelos, repositorios, servicios y rutas) tiene docstrings siguiendo la convención de Google.
 
 ## Despliegue
 

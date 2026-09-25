@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.schemas.vacante import VacanteCreate, VacanteResponse, VacanteUpdate
 from app.services.vacante_service import VacanteService
-from app.schemas.vacante import VacanteCreate, VacanteUpdate, VacanteResponse
 
 router = APIRouter(prefix="/vacantes", tags=["Vacantes"])
 
